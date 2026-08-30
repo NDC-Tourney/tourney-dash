@@ -24,6 +24,9 @@ export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
   const roundName = currentMatch.roundName;
   const schedule = useScheduleQuery();
 
+  const upcoming = schedule.upcoming;
+  const previous = schedule.recent;
+
   const { tourney } = useTosu();
 
   return (
@@ -42,7 +45,7 @@ export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
               <div id="schedule-upcoming">
                 <div id="schedule-upcoming-text">Upcoming Matches</div>
                 <div id="upcoming-matches">
-                  {schedule.upcoming.map((match) => {
+                  {upcoming.map((match) => {
                     return (
                       <div className="match" key={match.uid}>
                         <div className="match-info">
@@ -63,11 +66,6 @@ export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
                                 {match.player1.score}
                               </div>
                             </div>
-                          </div>
-                          <div className="match-vs">
-                            <div className="divider"></div>
-                            <div className="match-vs-text">VS</div>
-                            <div className="divider"></div>
                           </div>
                           <div className="match-blue-player">
                             <div className="match-blue-player-icon">
@@ -90,17 +88,12 @@ export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
                         </div>
                         <div className="match-time">
                           <div className="match-until">
-                            {dayjs(match.date).fromNow()}
+                            In {dayjs(match.date).fromNow()}
                           </div>
                           <div className="match-timestamp">
                             {dayjs(match.date)
                               .tz("Europe/Amsterdam")
                               .format("dddd HH:mm")}
-                            <span className="match-timestamp-tz">
-                              {dayjs(match.date)
-                                .tz("Europe/Amsterdam")
-                                .format("z")}
-                            </span>
                           </div>
                         </div>
                       </div>
@@ -111,7 +104,7 @@ export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
               <div id="schedule-previous">
                 <div id="schedule-previous-text">Previous Matches</div>
                 <div id="previous-matches">
-                  {schedule.recent.map((match) => {
+                  {previous.map((match) => {
                     if (
                       match.uid === currentMatch.uid &&
                       (tourney.points.left > 0 || tourney.points.right > 0)
@@ -146,11 +139,6 @@ export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
                               </div>
                             </div>
                           </div>
-                          <div className="match-vs">
-                            <div className="divider"></div>
-                            <div className="match-vs-text">VS</div>
-                            <div className="divider"></div>
-                          </div>
                           <div className="match-blue-player">
                             <div className="match-blue-player-icon">
                               <img src={match.player2.avatarUrl} />
@@ -178,11 +166,6 @@ export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
                             {dayjs(match.date)
                               .tz("Europe/Amsterdam")
                               .format("dddd HH:mm")}
-                            <span className="match-timestamp-tz">
-                              {dayjs(match.date)
-                                .tz("Europe/Amsterdam")
-                                .format("z")}
-                            </span>
                           </div>
                         </div>
                       </div>
