@@ -3,11 +3,11 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import type { AnimTypes } from "~/animations";
 import { getAnimations, sectionVariants } from "~/animations";
-import { Casters } from "~/components/Casters";
-import { MainContent } from "~/components/MainContent";
+import { Casters } from "../components/Casters";
+import { MainContent } from "../components/MainContent";
 import { useMatchesQuery, useScheduleQuery } from "~/state/huis";
 import { useTosu } from "~/state/tosu";
-import logo from "~/static/img/logo.png";
+import logo from "../static/img/logo.png";
 
 interface SchedulingScreenProps {
   from?: string;

@@ -1,14 +1,21 @@
 import { AnimatePresence } from "motion/react";
 import { usePreload } from "~/preload";
 import { useSettings } from "~/state/dashboard";
-import { MappoolScreen } from "./screens/Mappools";
-import { SchedulingScreen } from "./screens/Scheduling";
-import { StandbyScreen } from "./screens/Standby";
-import { StartScreen } from "./screens/Startscreen";
-import { VersusScreen } from "./screens/Versus";
-import { WinnerScreen } from "./screens/Winner";
-import { Showcase } from "./screens/Showcase";
-import { Seeding } from "./screens/Seeding";
+import { MappoolScreen as MappoolScreen2025 } from "./versions/ndc2025/screens/Mappools";
+import { SchedulingScreen as SchedulingScreen2025 } from "./versions/ndc2025/screens/Scheduling";
+import { StandbyScreen as StandbyScreen2025 } from "./versions/ndc2025/screens/Standby";
+import { StartScreen as StartScreen2025 } from "./versions/ndc2025/screens/Startscreen";
+import { VersusScreen as VersusScreen2025 } from "./versions/ndc2025/screens/Versus";
+import { WinnerScreen as WinnerScreen2025 } from "./versions/ndc2025/screens/Winner";
+import { MappoolScreen as MappoolScreen2026 } from "./versions/ndc2026/screens/Mappools";
+import { SchedulingScreen as SchedulingScreen2026 } from "./versions/ndc2026/screens/Scheduling";
+import { StandbyScreen as StandbyScreen2026 } from "./versions/ndc2026/screens/Standby";
+import { StartScreen as StartScreen2026 } from "./versions/ndc2026/screens/Startscreen";
+import { VersusScreen as VersusScreen2026 } from "./versions/ndc2026/screens/Versus";
+import { WinnerScreen as WinnerScreen2026 } from "./versions/ndc2026/screens/Winner";
+import { PlayerInfoScreen as PlayerInfoScreen2026 } from "./versions/ndc2026/screens/PlayerInfoScreen";
+import { WinnersBracketScreen as WinnersBracketScreen2026 } from "./versions/ndc2026/screens/WinnersBracketScreen";
+import { LosersBracketScreen as LosersBracketScreen2026 } from "./versions/ndc2026/screens/LosersBracketScreen";
 
 export function Screens() {
   usePreload();
@@ -17,29 +24,63 @@ export function Screens() {
   const activeScreen = settings.activeScreen;
   const previous = settings.previousScreen;
 
+  const screenSet =
+    settings.graphicsStyle === "NDC 2026"
+      ? {
+          start: StartScreen2026,
+          standby: StandbyScreen2026,
+          playerinfo: PlayerInfoScreen2026,
+          versus: VersusScreen2026,
+          scheduling: SchedulingScreen2026,
+          mappool: MappoolScreen2026,
+          winnersbracket: WinnersBracketScreen2026,
+          losersbracket: LosersBracketScreen2026,
+          winner: WinnerScreen2026,
+        }
+      : {
+          start: StartScreen2025,
+          standby: StandbyScreen2025,
+          playerinfo: StandbyScreen2025,
+          versus: VersusScreen2025,
+          scheduling: SchedulingScreen2025,
+          mappool: MappoolScreen2025,
+          winnersbracket: StandbyScreen2025,
+          losersbracket: StandbyScreen2025,
+          winner: WinnerScreen2025,
+        };
+
+  const ActiveScreen = screenSet[activeScreen];
+
   return (
     <div style={{ position: "relative", width: "1920px", height: "1080px" }}>
       <AnimatePresence mode="wait" initial={false}>
         {activeScreen === "start" && (
-          <StartScreen key="start" from={previous} to="start" />
+          <ActiveScreen key="start" from={previous} to="start" />
         )}
         {activeScreen === "standby" && (
-          <StandbyScreen key="standby" from={previous} to="standby" />
+          <ActiveScreen key="standby" from={previous} to="standby" />
+        )}
+        {activeScreen === "playerinfo" && (
+          <ActiveScreen key="playerinfo" from={previous} to="playerinfo" />
         )}
         {activeScreen === "versus" && (
-          <VersusScreen key="versus" from={previous} to="versus" />
+          <ActiveScreen key="versus" from={previous} to="versus" />
         )}
         {activeScreen === "mappool" && (
-          <MappoolScreen key="mappool" from={previous} to="mappool" />
+          <ActiveScreen key="mappool" from={previous} to="mappool" />
         )}
         {activeScreen === "scheduling" && (
-          <SchedulingScreen key="scheduling" from={previous} to="scheduling" />
+          <ActiveScreen key="scheduling" from={previous} to="scheduling" />
+        )}
+        {activeScreen === "winnersbracket" && (
+          <ActiveScreen key="winnersbracket" from={previous} to="winnersbracket" />
+        )}
+        {activeScreen === "losersbracket" && (
+          <ActiveScreen key="losersbracket" from={previous} to="losersbracket" />
         )}
         {activeScreen === "winner" && (
-          <WinnerScreen key="winner" from={previous} to="winner" />
+          <ActiveScreen key="winner" from={previous} to="winner" />
         )}
-        {activeScreen === "showcase" && <Showcase />}
-        {activeScreen === "seeding" && <Seeding />}
       </AnimatePresence>
     </div>
   );

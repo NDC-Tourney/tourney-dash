@@ -3,12 +3,13 @@ import z from "zod";
 export const screenNames = [
   "start",
   "standby",
+  "playerinfo",
   "versus",
-  "mappool",
   "scheduling",
+  "mappool",
+  "winnersbracket",
+  "losersbracket",
   "winner",
-  "showcase",
-  "seeding",
 ] as const;
 
 export const screenNameSchema = z.literal(screenNames);
