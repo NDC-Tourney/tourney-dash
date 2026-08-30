@@ -7,7 +7,7 @@ export function Chat() {
   return (
     <div id="chat">
       {tourney.chat
-        .filter((msg: any) => msg.team !== "bot")
+        .filter((msg: any) => msg.team !== "bot" || String(msg.message).includes("rolls"))
         .map((msg: any, idx: number) => (
           <motion.div
             className="chat-message"
