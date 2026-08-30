@@ -66,6 +66,20 @@ async function run() {
         }
         return new Response("Upgrade failed", { status: 400 });
       },
+      "/versions/*": (req) => {
+        const pathname = new URL(req.url).pathname;
+        const relativePath = pathname.replace(/^\/versions\//, "");
+        const file = Bun.file(
+          new URL(`./versions/${relativePath}`, import.meta.url),
+        );
+
+        if (!file.exists()) {
+          return new Response("Not found", { status: 404 });
+        }
+
+        return new Response(file);
+      },
+      "/favicon.ico": () => new Response(null, { status: 204 }),
       "/": index,
     },
     websocket: {

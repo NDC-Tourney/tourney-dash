@@ -1,57 +1,22 @@
-@import "tailwindcss";
-
-@theme {
-  --font-sans: "Saira", sans-serif;
-
-  --animate-marquee-left: marquee-left var(--duration, 40s) linear infinite;
-  --animate-marquee-up: marquee-up var(--duration, 40s) linear infinite;
-
-  @keyframes marquee-left {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(calc(-100% - var(--gap)));
-    }
-  }
-
-  @keyframes marquee-up {
-    0% {
-      transform: translateY(0);
-    }
-    100% {
-      transform: translateY(calc(-100% - var(--gap)));
-    }
-  }
-}
-
 @font-face {
-  font-family: "Saira";
-  src: url("../static/fonts/Saira-VariableFont_wdth,wght.ttf");
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Saira";
-  src: url("../static/fonts/Saira-Italic-VariableFont_wdth,wght.ttf");
-  font-style: italic;
-  font-weight: 100 900;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "BenderBlack";
-  src: url("../static/fonts/Bender-Black.otf");
+  font-family: "OrbitronBlack";
+  src: url("../static/fonts/Orbitron-Black.ttf");
 }
 @font-face {
-  font-family: "BenderBold";
-  src: url("../static/fonts/Bender-Bold.otf");
+  font-family: "OrbitronExtraBold";
+  src: url("../static/fonts/Orbitron-ExtraBold.ttf");
 }
 @font-face {
-  font-family: "BenderRegular";
-  src: url("../static/fonts/Bender-Regular.otf");
+  font-family: "OrbitronBold";
+  src: url("../static/fonts/Orbitron-Bold.ttf");
+}
+@font-face {
+  font-family: "OrbitronMedium";
+  src: url("../static/fonts/Orbitron-Medium.ttf");
+}
+@font-face {
+  font-family: "OrbitronRegular";
+  src: url("../static/fonts/Orbitron-Regular.ttf");
 }
 
 body,
@@ -117,7 +82,7 @@ p {
   color: white;
   width: 1920px;
   height: 1080px;
-  background-image: url("./img/bg-scheduling.png");
+  background-image: url("./img/bg.png");
   position: relative;
   display: flex;
   flex-direction: row;

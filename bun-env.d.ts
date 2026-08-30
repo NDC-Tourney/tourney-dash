@@ -8,6 +8,11 @@ declare module "*.png" {
   export = path;
 }
 
+declare module "*.css" {
+  const stylesheet: string;
+  export default stylesheet;
+}
+
 declare module "*.module.css" {
   /**
    * A record of class names to their corresponding CSS module classes

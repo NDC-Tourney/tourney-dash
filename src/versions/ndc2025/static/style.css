@@ -1,30 +1,3 @@
-@import "tailwindcss";
-
-@theme {
-  --font-sans: "Saira", sans-serif;
-
-  --animate-marquee-left: marquee-left var(--duration, 40s) linear infinite;
-  --animate-marquee-up: marquee-up var(--duration, 40s) linear infinite;
-
-  @keyframes marquee-left {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(calc(-100% - var(--gap)));
-    }
-  }
-
-  @keyframes marquee-up {
-    0% {
-      transform: translateY(0);
-    }
-    100% {
-      transform: translateY(calc(-100% - var(--gap)));
-    }
-  }
-}
-
 @font-face {
   font-family: "Saira";
   src: url("../static/fonts/Saira-VariableFont_wdth,wght.ttf");
