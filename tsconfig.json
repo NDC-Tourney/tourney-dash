@@ -21,8 +21,8 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
 
-    "baseUrl": ".",
     "paths": {
+      "*": ["./*"],
       "~/*": ["./src/*"]
     },
 

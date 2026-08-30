@@ -1,13 +1,8 @@
-import clsx from "clsx";
 import dayjs from "dayjs";
 import { produce } from "immer";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Match } from "~/schemas/huis";
 import { screenNames, type ScreenName } from "~/schemas/screens";
-import {
-  showcaseBeatmapSlots,
-  type ShowcaseBeatmapSlot,
-} from "~/schemas/showcase";
 import { useSettings } from "~/state/dashboard";
 import {
   useMappoolQuery,
@@ -15,9 +10,7 @@ import {
   useScheduleQuery,
 } from "~/state/huis";
 import { useTosu } from "~/state/tosu";
-import { PauseIcon, PlayIcon } from "@phosphor-icons/react";
-import { AnimatePresence, LayoutGroup, motion } from "motion/react";
-import { bracket } from "~/schemas/bracket";
+import { motion } from "motion/react";
 
 export function Dashboard() {
   const { matches } = useMatchesQuery();
@@ -48,6 +41,14 @@ export function Dashboard() {
       ? `${match.uid} ${match.player1.name} - ${match.player2.name}`
       : "Select";
   }, [matches, settings.matchId]);
+
+  const graphicsStyles = ["NDC 2026", "NDC 2025"] as const;
+  const tournamentOptions = ["36", "31"] as const;
+
+  const [graphicsStyleOpen, setGraphicsStyleOpen] = useState(false);
+  const [tournamentIdOpen, setTournamentIdOpen] = useState(false);
+  const graphicsStyleRef = useRef<HTMLDivElement>(null);
+  const tournamentIdRef = useRef<HTMLDivElement>(null);
 
   const countdownDate = dayjs(settings.countdown).format("HH:mm");
 
@@ -89,29 +90,6 @@ export function Dashboard() {
       }),
     );
 
-  const [showcaseOpen, setShowcaseOpen] = useState(false);
-  const setShowcaseBeatmap = (beatmap: ShowcaseBeatmapSlot) =>
-    setSettings(
-      produce((settings) => {
-        settings.showcaseBeatmap = beatmap;
-      }),
-    );
-
-  const toggleShowcasePlaying = () =>
-    setSettings(
-      produce((settings) => {
-        settings.showcasePlaying = !settings.showcasePlaying;
-      }),
-    );
-
-  const [seedingPickerOpen, setSeedingPickerOpen] = useState(false);
-  const setSeedingteam = (team: string) =>
-    setSettings(
-      produce((settings) => {
-        settings.seedingTeam = team;
-      }),
-    );
-
   // Match ID dropdown
   const [matchIsOpen, setMatchOpen] = useState(false);
   const matchDropdownRef = useRef<HTMLDivElement>(null);
@@ -132,8 +110,6 @@ export function Dashboard() {
   const [picksOpen, setPicksOpen] = useState(false);
   const bansDropdownRef = useRef<HTMLDivElement>(null);
   const picksDropdownRef = useRef<HTMLDivElement>(null);
-  const showcaseDropdownRef = useRef<HTMLDivElement>(null);
-  const seedingTeamDropdownRef = useRef<HTMLDivElement>(null);
 
   const handleConfirm = (pickOrBan: "bans" | "picks") => {
     const map = pickOrBan === "bans" ? bansSelection : picksSelection;
@@ -216,6 +192,20 @@ export function Dashboard() {
       }),
     );
 
+  const setGraphicsStyle = (value: "NDC 2026" | "NDC 2025") =>
+    setSettings(
+      produce((settings) => {
+        settings.graphicsStyle = value;
+      }),
+    );
+
+  const setTournamentId = (value: "36" | "31") =>
+    setSettings(
+      produce((settings) => {
+        settings.tournamentId = value;
+      }),
+    );
+
   // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -238,16 +228,16 @@ export function Dashboard() {
         setPicksOpen(false);
 
       if (
-        showcaseDropdownRef.current &&
-        !showcaseDropdownRef.current.contains(e.target as Node)
+        graphicsStyleRef.current &&
+        !graphicsStyleRef.current.contains(e.target as Node)
       )
-        setShowcaseOpen(false);
+        setGraphicsStyleOpen(false);
 
       if (
-        seedingTeamDropdownRef.current &&
-        !seedingTeamDropdownRef.current.contains(e.target as Node)
+        tournamentIdRef.current &&
+        !tournamentIdRef.current.contains(e.target as Node)
       )
-        setSeedingPickerOpen(false);
+        setTournamentIdOpen(false);
     };
 
     window.addEventListener("click", handleClickOutside);
@@ -355,209 +345,112 @@ export function Dashboard() {
       <div id="scene-switcher">
         <div className="section-title">Scene Switcher</div>
         <div className="switcher-select">
-          {screenNames.map((scene) => (
-            <button
-              key={scene}
-              className={`switcher-option ${settings.activeScreen === scene ? "selected" : ""}`}
-              onClick={() => setSelectedScreen(scene)}
-            >
-              {scene}
-            </button>
-          ))}
+          {screenNames.map((scene) => {
+            const label = scene
+              .replace(/^start$/i, "Start")
+              .replace(/^standby$/i, "Standby")
+              .replace(/^playerinfo$/i, "Player Info")
+              .replace(/^versus$/i, "Versus")
+              .replace(/^scheduling$/i, "Scheduling")
+              .replace(/^mappool$/i, "Mappool")
+              .replace(/^winnersbracket$/i, "Winners Bracket")
+              .replace(/^losersbracket$/i, "Losers Bracket")
+              .replace(/^winner$/i, "Winner");
+
+            return (
+              <button
+                key={scene}
+                className={`switcher-option ${settings.activeScreen === scene ? "selected" : ""}`}
+                onClick={() => setSelectedScreen(scene)}
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
       </div>
       <div className="divider"></div>
 
-      {/* Mappool Control Panel */}
-      {settings.activeScreen !== "showcase" &&
-        settings.activeScreen !== "seeding" && (
-          <motion.div key="mappool-controls">
-            <div className="section-title">Mappool Controls</div>
+      <motion.div key="mappool-controls">
+        <div className="section-title">Mappool Controls</div>
 
-            {/* Red/Blue Input Buttons */}
-            <div id="player-select">
-              <button
-                id="red-input"
-                className={
-                  settings.activePlayer === "player1" ? "red active" : "red"
-                }
-                onClick={() => setActivePlayer("player1")}
-              >
-                Red Input
-              </button>
-              <button
-                id="blue-input"
-                className={
-                  settings.activePlayer === "player2" ? "blue active" : "blue"
-                }
-                onClick={() => setActivePlayer("player2")}
-              >
-                Blue Input
-              </button>
-            </div>
+        <div id="player-select">
+          <button
+            id="red-input"
+            className={settings.activePlayer === "player1" ? "red active" : "red"}
+            onClick={() => setActivePlayer("player1")}
+          >
+            Red Input
+          </button>
+          <button
+            id="blue-input"
+            className={settings.activePlayer === "player2" ? "blue active" : "blue"}
+            onClick={() => setActivePlayer("player2")}
+          >
+            Blue Input
+          </button>
+        </div>
 
-            {/* Bans / Picks */}
-            <div id="mappool-select">
-              <div id="bans" ref={bansDropdownRef}>
-                <div id="bans-text">Ban/Unban</div>
-                <div
-                  id="ban-select-id-input"
-                  className={bansOpen ? "open" : ""}
-                  onClick={() => setBansOpen(!bansOpen)}
-                >
-                  {bansSelection}
-                </div>
-                <div
-                  className={`ban-select-dropdown-options ${bansOpen ? "show" : ""}`}
-                >
-                  {mappoolOptions.map((opt) => (
-                    <div
-                      key={opt}
-                      onClick={() => {
-                        setBansSelection(opt);
-                        setBansOpen(false);
-                      }}
-                    >
-                      <BannedOrPicked map={opt} />
-                    </div>
-                  ))}
-                </div>
-                <button id="bans-confirm" onClick={() => handleConfirm("bans")}>
-                  Confirm
-                </button>
-              </div>
-
-              <div id="picks" ref={picksDropdownRef}>
-                <div id="picks-text">Pick/Unpick</div>
-                <div
-                  id="pick-select-id-input"
-                  className={picksOpen ? "open" : ""}
-                  onClick={() => setPicksOpen(!picksOpen)}
-                >
-                  {picksSelection}
-                </div>
-                <div
-                  className={`pick-select-dropdown-options ${picksOpen ? "show" : ""}`}
-                >
-                  {mappoolOptions.map((opt) => (
-                    <div
-                      key={opt}
-                      onClick={() => {
-                        setPicksSelection(opt);
-                        setPicksOpen(false);
-                      }}
-                    >
-                      <BannedOrPicked map={opt} />
-                    </div>
-                  ))}
-                </div>
-                <button
-                  id="picks-confirm"
-                  onClick={() => handleConfirm("picks")}
-                >
-                  Confirm
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-      {settings.activeScreen === "showcase" && (
-        <motion.div key="showcase-controls">
-          <div className="section-title">Showcase Controls</div>
-          <div className="switcher-select">
+        <div id="mappool-select">
+          <div id="bans" ref={bansDropdownRef}>
+            <div id="bans-text">Ban/Unban</div>
             <div
-              id="select-id-input"
-              ref={showcaseDropdownRef}
-              className={clsx(showcaseOpen && "open")}
-              onClick={() => setShowcaseOpen((open) => !open)}
+              id="ban-select-id-input"
+              className={bansOpen ? "open" : ""}
+              onClick={() => setBansOpen(!bansOpen)}
             >
-              {settings.showcaseBeatmap}
+              {bansSelection}
             </div>
             <div
-              className={clsx(
-                "select-dropdown-options",
-                showcaseOpen && "show",
-              )}
+              className={`ban-select-dropdown-options ${bansOpen ? "show" : ""}`}
             >
-              {showcaseBeatmapSlots.map((beatmap) => (
+              {mappoolOptions.map((opt) => (
                 <div
-                  key={`showcase-switcher-${beatmap}`}
-                  className={clsx({
-                    active: beatmap === settings.showcaseBeatmap,
-                  })}
+                  key={opt}
                   onClick={() => {
-                    setShowcaseBeatmap(beatmap);
-                    setShowcaseOpen(false);
+                    setBansSelection(opt);
+                    setBansOpen(false);
                   }}
                 >
-                  {beatmap}
+                  <BannedOrPicked map={opt} />
                 </div>
               ))}
             </div>
-            <button
-              className="switcher-option"
-              onClick={() => toggleShowcasePlaying()}
-            >
-              <span
-                style={{
-                  display: "flex",
-                  gap: 10,
-                  alignItems: "center",
-                  fontWeight: "bold",
-                }}
-              >
-                {settings.showcasePlaying ? (
-                  <>
-                    <PauseIcon /> Pause
-                  </>
-                ) : (
-                  <>
-                    <PlayIcon /> Play
-                  </>
-                )}
-              </span>
+            <button id="bans-confirm" onClick={() => handleConfirm("bans")}>
+              Confirm
             </button>
           </div>
-        </motion.div>
-      )}
 
-      {settings.activeScreen === "seeding" && (
-        <motion.div key="seeding-controls">
-          <div className="section-title">Seeding Controls</div>
-          <div className="switcher-select">
+          <div id="picks" ref={picksDropdownRef}>
+            <div id="picks-text">Pick/Unpick</div>
             <div
-              id="seeding-select-id-input"
-              ref={seedingTeamDropdownRef}
-              className={(clsx(seedingPickerOpen && "open"), "mx-auto")}
-              onClick={() => setSeedingPickerOpen((open) => !open)}
+              id="pick-select-id-input"
+              className={picksOpen ? "open" : ""}
+              onClick={() => setPicksOpen(!picksOpen)}
             >
-              {settings.seedingTeam}
+              {picksSelection}
             </div>
             <div
-              className={clsx(
-                "seeding-select-dropdown-options",
-                seedingPickerOpen && "show",
-              )}
+              className={`pick-select-dropdown-options ${picksOpen ? "show" : ""}`}
             >
-              {bracket.Teams.map((team) => (
+              {mappoolOptions.map((opt) => (
                 <div
-                  key={`seeding-switcher-${team.Acronym}`}
-                  className={clsx({
-                    active: team.FullName === settings.seedingTeam,
-                  })}
+                  key={opt}
                   onClick={() => {
-                    setSeedingteam(team.FullName);
-                    setSeedingPickerOpen(false);
+                    setPicksSelection(opt);
+                    setPicksOpen(false);
                   }}
                 >
-                  {team.FullName}
+                  <BannedOrPicked map={opt} />
                 </div>
               ))}
             </div>
+            <button id="picks-confirm" onClick={() => handleConfirm("picks")}>
+              Confirm
+            </button>
           </div>
-        </motion.div>
-      )}
+        </div>
+      </motion.div>
 
       <motion.div key="countdown-section">
         <div className="divider"></div>
@@ -586,6 +479,67 @@ export function Dashboard() {
           </div>
         </div>
       </motion.div>
+
+      <div className="divider"></div>
+      <div id="tournament-data">
+        <div className="section-title">Tournament Data</div>
+
+        <div className="tournament-data-row">
+          <div className="tournament-data-label">Graphics Style</div>
+          <div
+            ref={graphicsStyleRef}
+            className={`tournament-data-select ${graphicsStyleOpen ? "open" : ""}`}
+            onClick={() => setGraphicsStyleOpen((open) => !open)}
+          >
+            <span>{settings.graphicsStyle}</span>
+            <div
+              className={`tournament-data-options ${graphicsStyleOpen ? "show" : ""}`}
+            >
+              {graphicsStyles.map((style) => (
+                <div
+                  key={style}
+                  className={settings.graphicsStyle === style ? "active" : ""}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setGraphicsStyle(style);
+                    setGraphicsStyleOpen(false);
+                  }}
+                >
+                  {style}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="tournament-data-row">
+          <div className="tournament-data-label">Tournament ID</div>
+          <div
+            ref={tournamentIdRef}
+            className={`tournament-data-select ${tournamentIdOpen ? "open" : ""}`}
+            onClick={() => setTournamentIdOpen((open) => !open)}
+          >
+            <span>{settings.tournamentId}</span>
+            <div
+              className={`tournament-data-options ${tournamentIdOpen ? "show" : ""}`}
+            >
+              {tournamentOptions.map((id) => (
+                <div
+                  key={id}
+                  className={settings.tournamentId === id ? "active" : ""}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setTournamentId(id);
+                    setTournamentIdOpen(false);
+                  }}
+                >
+                  {id}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import z from "zod";
 import { screenNameSchema } from "./screens";
-import { showcaseBeatmapSlots } from "./showcase";
 
 export const playerSchema = z.literal(["player1", "player2"]);
 
@@ -16,13 +15,12 @@ export const settingsSchema = z.object({
   previousScreen: screenNameSchema.optional(),
   countdown: z.number().optional(),
   showCountdown: z.boolean().optional(),
+  graphicsStyle: z.enum(["NDC 2026", "NDC 2025"]),
+  tournamentId: z.enum(["36", "31"]),
   player1: playerSettingsSchema,
   player2: playerSettingsSchema,
   lastPickedBy: playerSchema.nullish(),
   activePlayer: playerSchema,
-  showcaseBeatmap: z.literal(showcaseBeatmapSlots),
-  showcasePlaying: z.boolean(),
-  seedingTeam: z.string(),
 });
 
 export type DashboardSettings = z.infer<typeof settingsSchema>;

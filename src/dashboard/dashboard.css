@@ -1,26 +1,26 @@
 @font-face {
   font-family: "BenderBlack";
-  src: url("../static/fonts/Bender-Black.otf");
+  src: url("../versions/ndc2025/static/fonts/Bender-Black.otf");
 }
 @font-face {
   font-family: "BenderBold";
-  src: url("../static/fonts/Bender-Bold.otf");
+  src: url("../versions/ndc2025/static/fonts/Bender-Bold.otf");
 }
 @font-face {
   font-family: "BenderRegular";
-  src: url("../static/fonts/Bender-Regular.otf");
+  src: url("../versions/ndc2025/static/fonts/Bender-Regular.otf");
 }
 @font-face {
   font-family: "BenderBlack";
-  src: url("../static/fonts/Bender-Black.otf");
+  src: url("../versions/ndc2025/static/fonts/Bender-Black.otf");
 }
 @font-face {
   font-family: "BenderBold";
-  src: url("../static/fonts/Bender-Bold.otf");
+  src: url("../versions/ndc2025/static/fonts/Bender-Bold.otf");
 }
 @font-face {
   font-family: "BenderRegular";
-  src: url("../static/fonts/Bender-Regular.otf");
+  src: url("../versions/ndc2025/static/fonts/Bender-Regular.otf");
 }
 
 body,
@@ -269,6 +269,84 @@ button:active {
 .switcher-option.selected {
   background: #8454ca;
   font-family: "BenderBlack", sans-serif;
+}
+
+.tournament-data-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 424px;
+  margin-left: 38px;
+  margin-top: 8px;
+}
+
+.tournament-data-label {
+  font-size: 22px;
+  font-family: BenderBold, Helvetica, sans-serif;
+  color: white;
+  padding-left: 6px;
+}
+
+.tournament-data-select {
+  position: relative;
+  width: 100%;
+  height: 52px;
+  background: #4c2980;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  font-family: "BenderBold", sans-serif;
+  font-size: 22px;
+  color: white;
+  user-select: none;
+}
+
+.tournament-data-select::after {
+  content: "";
+  display: inline-block;
+  border: 6px solid transparent;
+  border-top-color: #fff;
+  transition: transform 0.2s ease;
+  transform-origin: center 3px;
+  margin-left: 8px;
+}
+
+.tournament-data-select.open::after {
+  transform: rotate(180deg);
+}
+
+.tournament-data-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #643ba1;
+  display: none;
+  flex-direction: column;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.tournament-data-options div {
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+}
+
+.tournament-data-options div:hover {
+  background: hsl(262 51% 38%);
+}
+
+.tournament-data-options div.active {
+  background: hsl(261 51% 34%);
+}
+
+.tournament-data-options.show {
+  display: flex;
 }
 
 #player-select {

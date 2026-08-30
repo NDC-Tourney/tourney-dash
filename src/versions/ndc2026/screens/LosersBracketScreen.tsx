@@ -1,26 +1,25 @@
 import { motion } from "framer-motion";
 import type { AnimTypes } from "~/animations";
 import { getAnimations, sectionVariants } from "~/animations";
-import { Casters } from "~/components/Casters";
-import { CurrentMapStats } from "~/components/CurrentMapStats";
-import { FooterContent } from "~/components/FooterContent";
-import { GameplaySvgMask } from "~/components/GameplayTransparencyMask";
-import { HeaderContent } from "~/components/HeaderContent";
-import { Logo } from "~/components/Logo";
-import { MainContent } from "~/components/MainContent";
-import { PlayerInfo } from "~/components/PlayerInfo";
-import { ScoreBars } from "~/components/ScoreBars";
+import { Casters } from "../components/Casters";
+import { Chat } from "../components/Chat";
+import { FooterContent } from "../components/FooterContent";
+import { GameplaySvgMask } from "../components/GameplayTransparencyMask";
+import { HeaderContent } from "../components/HeaderContent";
+import { Logo } from "../components/Logo";
+import { MainContent } from "../components/MainContent";
+import { PlayerInfo } from "../components/PlayerInfo";
+import { StageInfo } from "../components/StageInfo";
 
-interface VersusScreenProps {
+interface LosersBracketScreenProps {
   from?: string;
   to: string;
 }
 
-export function VersusScreen({ from, to }: VersusScreenProps) {
-  // treat this component as self (to) and other as from
+export function LosersBracketScreen({ from, to }: LosersBracketScreenProps) {
   const anims: AnimTypes = getAnimations(to, from ?? "");
-
   const slideDirection: 1 | -1 = 1;
+
   return (
     <div>
       <GameplaySvgMask />
@@ -36,11 +35,14 @@ export function VersusScreen({ from, to }: VersusScreenProps) {
           <HeaderContent>
             <div id="top">
               <PlayerInfo playerNum={1} />
-              <ScoreBars />
+              <div id="middle">
+                <StageInfo />
+              </div>
               <PlayerInfo playerNum={2} />
             </div>
           </HeaderContent>
         </motion.div>
+
         <motion.div
           key={`main-${to}`}
           {...(anims.main === "slide"
@@ -53,6 +55,7 @@ export function VersusScreen({ from, to }: VersusScreenProps) {
             <div id="gameplay"></div>
           </MainContent>
         </motion.div>
+
         <motion.div
           key={`footer-${to}`}
           {...(anims.footer === "slide"
@@ -65,7 +68,7 @@ export function VersusScreen({ from, to }: VersusScreenProps) {
             <div id="orange-line"></div>
             <div id="bottom">
               <Logo />
-              <CurrentMapStats />
+              <Chat />
               <Casters />
             </div>
           </FooterContent>

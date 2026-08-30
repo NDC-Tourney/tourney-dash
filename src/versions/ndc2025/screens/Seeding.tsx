@@ -1,4 +1,4 @@
-import { Background } from "~/components/Background";
+import { Background } from "../components/Background";
 import { useFlagsQuery } from "~/state/huis";
 import { useSettings } from "~/state/dashboard";
 import { bracket } from "~/schemas/bracket";

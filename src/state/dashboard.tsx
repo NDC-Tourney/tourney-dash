@@ -8,7 +8,7 @@ import {
   type ReactNode,
   type SetStateAction,
 } from "react";
-import { bracket } from "~/schemas/bracket";
+
 import {
   dashboardMessageSchema,
   type DashboardMessage,
@@ -81,9 +81,8 @@ export function DashboardSettingsProvider({
     },
     activePlayer: "player1",
     showCountdown: true,
-    showcaseBeatmap: "NM1",
-    showcasePlaying: true,
-    seedingTeam: bracket.Teams[0]?.FullName ?? "",
+    graphicsStyle: "NDC 2026",
+    tournamentId: "36"
   });
 
   const setSettings = useCallback(
