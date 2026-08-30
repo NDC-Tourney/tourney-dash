@@ -1,6 +1,5 @@
 queue_rules:
   - merge_method: fast-forward
-    autoqueue: true
     name: merge queue
     queue_conditions:
       - base = main
@@ -12,6 +11,7 @@ queue_rules:
     branch_protection_injection_mode: queue
 merge_protections_settings:
   post_comment: false
+  auto_merge_conditions: true
 pull_request_rules:
   - name: Label conflicting pull requests
     description: Add a label to a pull request with conflict to spot it easily
