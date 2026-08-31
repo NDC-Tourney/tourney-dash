@@ -19,6 +19,10 @@
   src: url("../static/fonts/Orbitron-Regular.ttf");
 }
 
+:root {
+  --purple: #6A5BFF;
+}
+
 body,
 html {
   line-height: unset;
@@ -509,15 +513,17 @@ p {
 }
 
 #casters {
-  width: 603px;
-  height: 180px;
-  margin-top: 20px;
+  width: 526px;
+  height: 155px;
   font-size: 32px;
-  font-family: BenderBlack, Helvetica, sans-serif;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
   font-weight: normal;
-  color: #ff962d;
+  color: var(--purple);
   text-align: center;
   text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 #chat {
@@ -1253,7 +1259,7 @@ p {
   display: flex;
   width: 1082px;
   height: 984px;
-  margin-top: 96px;
+  margin-top: 78px;
   margin-left: 107px;
   justify-content: space-between;
 }
@@ -1266,18 +1272,19 @@ p {
 
 #schedule-upcoming-text,
 #schedule-previous-text {
-  font-size: 48px;
-  font-family: BenderBlack, Helvetica, sans-serif;
+  font-size: 36px;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
   font-weight: normal;
-  color: #ff962d;
+  color: var(--purple);
+  text-transform: uppercase;
 }
 
 #upcoming-matches,
 #previous-matches {
-  margin-top: 36px;
+  margin-top: 29px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 10px;
 }
 
 .match {
@@ -1292,12 +1299,15 @@ p {
   width: 348px;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(
-    180deg,
-    rgba(75, 31, 31, 0.4) 0%,
-    rgba(31, 31, 31, 0.4) 50%,
-    rgba(38, 29, 70, 0.4) 100%
-  );
+  /*background: linear-gradient(*/
+  /*  180deg,*/
+  /*  rgba(75, 31, 31, 0.4) 0%,*/
+  /*  rgba(31, 31, 31, 0.4) 50%,*/
+  /*  rgba(38, 29, 70, 0.4) 100%*/
+  /*);*/
+
+  background: linear-gradient(180deg, rgba(75, 31, 31, 0.4) 0%, rgba(31, 31, 31, 0.4) 50%, rgba(38, 29, 70, 0.4) 100%);
+
 }
 
 .match-red-player,
@@ -1330,8 +1340,8 @@ p {
 
 .match-player-name {
   width: 214px;
-  font-size: 24px;
-  font-family: BenderBold, Helvetica, sans-serif;
+  font-size: 20px;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
   font-weight: normal;
   color: #ffffff;
   text-align: center;
@@ -1345,14 +1355,14 @@ p {
   align-items: center;
   justify-content: center;
   font-size: 48px;
-  font-family: BenderBold, Helvetica, sans-serif;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
   font-weight: normal;
   color: #ffffff;
   background-color: #353535;
 }
 
 .match-box.win {
-  background-color: #ff962d !important;
+  background-color: var(--purple) !important;
 }
 
 .match-vs {
@@ -1379,8 +1389,8 @@ p {
 }
 
 .match-time {
-  font-size: 16px;
-  font-family: BenderBold, Helvetica, sans-serif;
+  font-size: 14px;
+  font-family: OrbitronBold, Helvetica, sans-serif;
   font-weight: normal;
   color: #b5b5b5;
   display: flex;
@@ -1409,43 +1419,47 @@ p {
   flex-wrap: nowrap;
   flex-direction: row;
   justify-content: space-between;
+  background-image: url("./img/bg-fade-1.png");
 }
 
 #scheduling-right {
   display: flex;
   flex-direction: column;
   margin-top: 78px;
+  margin-right: 98px;
   width: 603px;
+  justify-content: flex-start;
+  align-items: flex-end;
 }
 
 #scheduling-text {
-  font-size: 64px;
-  font-family: BenderBlack, Helvetica, sans-serif;
+  font-size: 48px;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
   font-weight: normal;
-  color: #ff962d;
-  text-align: center;
-  width: 519px;
+  color: var(--purple);
+  text-align: end;
+  text-transform: uppercase;
 }
 
 #scheduling-stage {
-  font-size: 64px;
-  font-family: BenderBlack, Helvetica, sans-serif;
+  font-size: 48px;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
   font-weight: normal;
-  color: #ff962d;
-  text-align: center;
-  width: 519px;
+  color: var(--purple);
+  text-align: end;
+  text-transform: uppercase;
 }
 
 #scheduling-logo {
-  width: 437px;
-  height: 217px;
-  margin-left: 45px;
-  margin-top: 61px;
+  width: 422px;
+  height: 227px;
+  margin-top: 56px;
 }
 
 #scheduling-casters {
-  position: absolute;
-  bottom: 0;
+  position: fixed;
+  top: 920px;
+  left: 1377px;
 }
 
 .showcase {
