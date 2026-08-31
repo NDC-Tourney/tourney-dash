@@ -16,41 +16,7 @@ export default function SupportersAvatars({
   reverse = false,
   side,
 }: Props) {
-  const dummySupporters = [
-    {
-      name: "AimEnjoyer",
-      id: 9001,
-      supportingId: 123456,
-    },
-    {
-      name: "StreamMain",
-      id: 9002,
-      supportingId: 123456,
-    },
-    {
-      name: "DTEnjoyer",
-      id: 9003,
-      supportingId: 123456,
-    },
-    {
-      name: "osuFan42",
-      id: 9004,
-      supportingId: 123456,
-    },
-    {
-      name: "SliderEnjoyer",
-      id: 9005,
-      supportingId: 123456,
-    },
-    {
-      name: "TournamentFan",
-      id: 9006,
-      supportingId: 123456,
-    },
-  ];
-
-  // const supporters = player.supporters;
-  const supporters = dummySupporters;
+  const supporters = player.supporters;
 
   const Avatars = useCallback(
     () =>
