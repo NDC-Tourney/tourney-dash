@@ -24,7 +24,7 @@ export function WinnerScreen({ from, to }: WinnerScreenProps) {
 
   const { tourney } = useTosu();
   const { currentMatch } = useMatchesQuery();
-
+  const { roundName, isShowmatch, bracket } = currentMatch;
   const [player1, player2] = [currentMatch.player1, currentMatch.player2];
 
   const totalPoints = Math.ceil(tourney.bestOf / 2);
@@ -43,65 +43,69 @@ export function WinnerScreen({ from, to }: WinnerScreenProps) {
   return (
     <div>
       <div id="main">
-        <motion.div
-          key={`main-${to}`}
-          {...(anims.main === "slide"
-            ? sectionVariants.main.slide(slideDirection)
-            : anims.main === "fade"
-              ? sectionVariants.main.fade
-              : sectionVariants.main.none)}
-        >
-          <MainContent>
-            <div id="win-top">
-              <div id="win-left">
-                <div id="win-text">Winner</div>
-                <div id="win-player">
-                  <div id="win-player-icon" className={winnerTeam}>
-                    <img src={winner.avatarUrl} />
+        <div className="screen-fade-2">
+          <motion.div
+            key={`main-${to}`}
+            {...(anims.main === "slide"
+              ? sectionVariants.main.slide(slideDirection)
+              : anims.main === "fade"
+                ? sectionVariants.main.fade
+                : sectionVariants.main.none)}
+          >
+            <MainContent>
+              <div id="win-top">
+                <div id="win-left">
+                  <div id="win-title">
+                    <div id="win-stage-name">{roundName}</div>
+                    <div id="win-winner-loser">
+                      ({isShowmatch ? "showmatch" : `${bracket} Bracket`})
+                    </div>
                   </div>
-                  <div id="win-player-info">
-                    <div id="win-player-name">
-                      {winner.name !== "" ? winner.name : "Unknown player"}
+
+                  <div id="win-player" className={winnerTeam}>
+                    <div id="win-player-icon" className={winnerTeam}>
+                      <img src={winner.avatarUrl} />
                     </div>
-                    <div id="win-player-pickems">
-                      <span className="player-info-label">Pickems: </span>
-                      {winner.pickemsRate}%
-                    </div>
-                    {winner.seed && (
-                      <div id="win-player-seed">
-                        <span className="player-info-label">Seed: </span>
-                        {winner.seed}
+                    <div id="win-player-info">
+                      <div id="win-player-name">
+                        {winner.name !== "" ? winner.name : "Unknown player"}
                       </div>
-                    )}
+                      <div id="win-player-pickems">
+                        <span className="player-info-label">Pickems: </span>
+                        {winner.pickemsRate}%
+                      </div>
+                      {winner.seed && (
+                        <div id="win-player-seed">
+                          <span className="player-info-label">Seed: </span>
+                          {winner.seed}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <SupportersAvatars player={winner} side={winnerTeam} />
-              </div>
-              <div id="win-right">
-                <div id="trophy">
-                  <img src={trophy} />
+
+                  <SupportersAvatars player={winner} side={winnerTeam} />
                 </div>
               </div>
-            </div>
-          </MainContent>
-        </motion.div>
-        <motion.div
-          key={`footer-${to}`}
-          {...(anims.footer === "slide"
-            ? sectionVariants.footer.slide(slideDirection)
-            : anims.footer === "fade"
-              ? sectionVariants.footer.fade
-              : sectionVariants.footer.none)}
-        >
-          <FooterContent>
-            <div id="orange-line"></div>
-            <div id="bottom">
-              <Logo />
-              <Chat />
-              <Casters />
-            </div>
-          </FooterContent>
-        </motion.div>
+            </MainContent>
+          </motion.div>
+
+          <motion.div
+            key={`footer-${to}`}
+            {...(anims.footer === "slide"
+              ? sectionVariants.footer.slide(slideDirection)
+              : anims.footer === "fade"
+                ? sectionVariants.footer.fade
+                : sectionVariants.footer.none)}
+          >
+            <FooterContent>
+              <div id="bottom">
+                <Logo />
+
+                <div id="win-footer-text">WINNER</div>
+              </div>
+            </FooterContent>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

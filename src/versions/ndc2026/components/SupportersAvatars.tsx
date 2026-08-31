@@ -16,34 +16,39 @@ export default function SupportersAvatars({
   reverse = false,
   side,
 }: Props) {
+  const supporters = player.supporters;
+
   const Avatars = useCallback(
     () =>
-      player.supporters.map((supporter, i) => (
+      supporters.map((supporter, i) => (
         <div key={`${supporter.id}-${i}`}>
           <PlayerAvatar
             className="supporter"
             url={getAvatarUrl(supporter.id)}
             color={side}
+            width={100}
+            height={100}
+            borderStyle={"square"}
+            borderWidth={4}
           />
           <div className="ss-supporter-name">{supporter.name}</div>
         </div>
       )),
-    [JSON.stringify(player.supporters)],
+    [JSON.stringify(supporters)],
   );
 
   return (
     <div className={clsx("ss-supporters", { reverse: reverse })}>
       <div className="ss-supporters-amount">
-        <span className="player-info-label">Supporters: </span>
-        {player.supporters.length}
+        <span className="player-info-label">Supporters</span>
       </div>
       <div
         className={clsx("ss-supporters-avatars", {
           reverse: reverse,
-          grid: player.supporters.length <= 4,
+          grid: supporters.length <= 6,
         })}
       >
-        {player.supporters.length > 4 ? (
+        {supporters.length > 6 ? (
           <Marquee fade={true}>
             <Avatars />
           </Marquee>
