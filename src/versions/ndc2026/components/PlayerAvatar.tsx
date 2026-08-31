@@ -4,20 +4,28 @@ import type { HTMLAttributes } from "react";
 type Props = HTMLAttributes<HTMLDivElement> & {
   url: string;
   color: "red" | "blue";
-  style?: "square" | "rounded";
+  width?: number;
+  height?: number;
+  borderStyle?: "square" | "rounded";
+  borderWidth?: number;
 };
 
-export function PlayerAvatar({ url, color, style, className }: Props) {
+export function PlayerAvatar({ url, color, borderStyle, className, width = 200, height = 200, borderWidth = 7}: Props) {
   return (
     <div
       className={clsx(
         "ss-player-avatar",
         color,
-        style && `ss-${style}-player-avatar`,
+        borderStyle && `ss-${borderStyle}-player-avatar`,
         className,
       )}
     >
-      <img src={url} />
+      <img
+        src={url}
+        width={width}
+        height={height}
+        style={{ "--border-width": `${borderWidth}px` }}
+      />
     </div>
   );
 }
