@@ -1212,6 +1212,10 @@ p {
   color: #FFFFFF;
 }
 
+.ss-supporters-amount .player-info-label {
+  color: white !important;
+}
+
 #win-winner-loser {
   font-family: OrbitronBold, Helvetica, sans-serif;
   font-weight: 700;
