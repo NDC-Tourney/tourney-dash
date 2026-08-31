@@ -9,9 +9,9 @@ type Props = {
 
 export function PlayerCard({ player, side }: Props) {
   return (
-    <div id={`ss-${side}-player`}>
+    <div id={`ss-${side}-player`} className={side}>
       <PlayerAvatar url={player.avatarUrl} color={side} />
-      <div className={clsx("ss-player-info", side === "red" && "align-right")}>
+      <div className="ss-player-info">
         <div className="ss-player-name">{player.name}</div>
         <div className="ss-player-pickems">
           <span className="player-info-label">Pickems: </span>
