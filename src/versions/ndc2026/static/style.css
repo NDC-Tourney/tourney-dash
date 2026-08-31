@@ -79,6 +79,12 @@ p {
   left: 0;
 }
 
+.screen-fade-2 {
+  width: 100%;
+  height: 100%;
+  background-image: url("./img/bg-fade-3.png");
+}
+
 #main-scheduling {
   font-size: 20px;
   font-family: BenderBold, Helvetica, sans-serif;
@@ -585,17 +591,28 @@ p {
 }
 
 #ss-top {
+  margin-top: 45px;
+  margin-left: 49px;
   width: 100%;
   height: 870px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+#ss-top-left {
+  position: absolute;
+  top: 73px;
+  left: 1446px;
 }
 
 #ss-title {
-  font-size: 64px;
-  font-family: BenderBlack, Helvetica, sans-serif;
+  font-size: 96px;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
   font-weight: normal;
-  color: #ff962d;
-  text-align: center;
-  padding-top: 78px;
+  color: var(--purple);
+  text-transform: uppercase;
 }
 
 #ss-winner-loser {
@@ -609,32 +626,28 @@ p {
 
 #ss-vs {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  margin-top: 40px;
+  flex-direction: column;
 }
 
 #ss-red-player,
 #ss-blue-player {
   display: flex;
   flex-direction: row;
-  width: 885px;
-}
-
-#ss-red-player {
-  flex-direction: row-reverse !important;
+  width: 925px;
+  height: 200px;
 }
 
 .player-info-label {
-  color: #ff962d;
+  color: var(--ss-player-color, #dc1f2b);
+}
+
+.blue .player-info-label {
+  --ss-player-color: #1f55dc;
 }
 
 .ss-player-avatar img {
-  margin: 16px;
-  height: 240px;
-  width: 240px;
+  height: 200px;
+  width: 200px;
   object-fit: cover;
   outline: 7px solid var(--ss-player-color, #dc1f2b);
   outline-offset: -7px;
@@ -652,38 +665,37 @@ p {
 }
 
 .ss-player-info {
-  margin-top: 32px;
-  margin-left: 20px;
-  margin-right: 20px;
+  padding-left: 26px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  width: 725px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 49.52%, rgba(0, 0, 0, 0) 100%);
 }
 
 .ss-player-name {
   font-size: 64px;
-  font-family: BenderBlack, Helvetica, sans-serif;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
   font-weight: normal;
   color: white;
 }
 
 .ss-player-seed {
-  font-size: 36px;
-  font-family: BenderRegular, Helvetica, sans-serif;
+  font-size: 40px;
+  font-family: OrbitronRegular, Helvetica, sans-serif;
   font-weight: normal;
   color: white;
 }
 
 .ss-player-supporters {
-  font-size: 36px;
-  font-family: BenderRegular, Helvetica, sans-serif;
+  font-size: 40px;
+  font-family: OrbitronRegular, Helvetica, sans-serif;
   font-weight: normal;
   color: white;
 }
 
 .ss-player-pickems {
-  font-size: 36px;
-  font-family: BenderRegular, Helvetica, sans-serif;
+  font-size: 40px;
+  font-family: OrbitronRegular, Helvetica, sans-serif;
   font-weight: normal;
   color: white;
 }
@@ -747,28 +759,45 @@ p {
 }
 
 .ss-vs-text {
-  font-size: 48px;
-  font-family: BenderBlack, Helvetica, sans-serif;
+  font-size: 64px;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
   font-weight: 900;
-  color: #ff962d;
+  color: white;
+  width: 190px;
+  margin-right: 10px;
+  height: 200px;
+  text-align: right;
+}
+
+.ss-vs-line {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
 }
 
 .ss-time-to-start {
+  position: absolute;
+  top: 714px;
+  left: 43px;
   display: flex;
   flex-direction: column;
-  font-size: 36px;
-  font-family: BenderBlack, Helvetica, sans-serif;
+  gap: 32px;
+  font-size: 64px;
+  text-transform: uppercase;
+  font-family: OrbitronBold, Helvetica, sans-serif;
   font-weight: normal;
-  font-variant-numeric: tabular-nums;
   color: white;
-  text-align: center;
-  padding-top: 120px;
   opacity: 0;
   transition: opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .ss-countdown {
-  font-size: 64px;
+  font-size: 390px;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
+  line-height: 502px;
+  font-weight: 900;
+  margin-top: -150px;
+  margin-left: -20px;
 }
 
 .visible {

@@ -12,6 +12,7 @@ import { PlayerCard } from "../components/PlayerCard";
 import SupportersAvatars from "../components/SupportersAvatars";
 import { useSettings } from "~/state/dashboard";
 import { useMatchesQuery } from "~/state/huis";
+import logo from "../static/img/logo.png";
 
 interface StartScreenProps {
   from?: string;
@@ -41,68 +42,61 @@ export function StartScreen({ from, to }: StartScreenProps) {
 
   return (
     <div id="main">
-      <motion.div
-        key={`main-${to}`}
-        {...(anims.main === "slide"
-          ? sectionVariants.main.slide(slideDirection)
-          : anims.main === "fade"
-            ? sectionVariants.main.fade
-            : sectionVariants.main.none)}
-      >
-        <MainContent>
-          <div id="ss-top">
-            <div id="ss-title">
-              <div id="ss-stage-name">{roundName}</div>
-              <div id="ss-winner-loser">
-                ({isShowmatch ? "showmatch" : `${bracket} Bracket`})
-              </div>
-            </div>
-            <div id="ss-vs">
-              <PlayerCard player={player1} side="red" />
-              <div className="ss-vs-text">VS</div>
-              <PlayerCard player={player2} side="blue" />
-            </div>
-            <div id="ss-middle">
-              <SupportersAvatars player={player1} side="red" reverse={true} />
-              <div
-                className={clsx(
-                  "ss-time-to-start",
-                  settings.showCountdown && "visible",
-                )}
-              >
-                <span>Time to start: </span>
-                <span className="ss-countdown">
-                  <Countdown
-                    key={`countdown-${settings.countdown}`}
-                    renderer={renderer}
-                    date={settings.countdown}
-                    autoStart={true}
-                  />
-                </span>
-              </div>
-              <SupportersAvatars player={player2} side="blue" />
-            </div>
-          </div>
-        </MainContent>
-      </motion.div>
+      <div className="screen-fade-2">
+        <motion.div
+          key={`main-${to}`}
+          {...(anims.main === "slide"
+            ? sectionVariants.main.slide(slideDirection)
+            : anims.main === "fade"
+              ? sectionVariants.main.fade
+              : sectionVariants.main.none)}
+        >
+          <MainContent>
+            <div id="ss-top">
+              <div id="ss-title">Upcoming Match</div>
 
-      <motion.div
-        key={`footer-${to}`}
-        {...(anims.footer === "slide"
-          ? sectionVariants.footer.slide(slideDirection)
-          : anims.footer === "fade"
-            ? sectionVariants.footer.fade
-            : sectionVariants.footer.none)}
-      >
-        <FooterContent>
-          <div id="orange-line"></div>
-          <div id="bottom">
-            <Logo />
-            <Chat />
-            <Casters />
+              <div id="ss-vs">
+                <PlayerCard player={player1} side="red" />
+                <div className="ss-vs-line">
+                  <div className="ss-vs-text">VS</div>
+
+                  <PlayerCard player={player2} side="blue" />
+                </div>
+              </div>
+            </div>
+          </MainContent>
+
+          <div id="ss-top-left">
+            <img src={logo} width="422" height="227" />
           </div>
-        </FooterContent>
-      </motion.div>
+        </motion.div>
+
+        <motion.div
+          key={`footer-${to}`}
+          {...(anims.footer === "slide"
+            ? sectionVariants.footer.slide(slideDirection)
+            : anims.footer === "fade"
+              ? sectionVariants.footer.fade
+              : sectionVariants.footer.none)}
+        >
+          <div
+            className={clsx(
+              "ss-time-to-start",
+              settings.showCountdown && "visible",
+            )}
+          >
+            <span>Time to start: </span>
+            <span className="ss-countdown">
+              <Countdown
+                key={`countdown-${settings.countdown}`}
+                renderer={renderer}
+                date={settings.countdown}
+                autoStart={true}
+              />
+            </span>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }
