@@ -29,7 +29,6 @@ export function VersusScreen({ from, to }: VersusScreenProps) {
     <div>
       <GameplaySvgMask top={TOP_HEIGHT} height={GAMEPLAY_HEIGHT} />
       <div id="main" className="no-background">
-        <div className="screen-fade-2">
           <motion.div
             key={`header-${to}`}
             {...(anims.header === "slide"
@@ -78,7 +77,6 @@ export function VersusScreen({ from, to }: VersusScreenProps) {
               </div>
             </FooterContent>
           </motion.div>
-        </div>
       </div>
     </div>
   );

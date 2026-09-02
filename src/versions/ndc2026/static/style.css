@@ -45,10 +45,6 @@ img {
   border: unset;
 }
 
-body {
-  background-color: rgba(0, 0, 0, 1);
-}
-
 p {
   margin: 0;
   padding: 0;
@@ -459,12 +455,10 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
 }
 
 #ndc-logo img {
-  --top: 37px;
-
   position: absolute;
   width: 254px;
   height: 137px;
-  padding-top: var(--top);
+  padding-top: 15px;
   padding-left: 53px;
 }
 
@@ -520,7 +514,7 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
 #current-map-info {
   display: flex;
   flex: 2;
-  gap: 4px;
+  gap: 6px;
   flex-direction: column;
   padding-top: 15px;
   padding-left: 25px;
