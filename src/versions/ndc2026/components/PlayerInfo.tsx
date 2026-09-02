@@ -29,22 +29,17 @@ export function PlayerInfo({ playerNum }: { playerNum: 1 | 2 }) {
             {player.name ?? "Unknown player"}
           </div>
           <div id="player-pickems" className={`align-${side}`}>
-            <span className="player-info-label">Pickems: </span>
+            <span className="player-info-label-small">Pickems: </span>
             {player.pickemsRate}%
-          </div>
-          <div id="player-supporters" className={`align-${side}`}>
-            <span className="player-info-label">Supporters: </span>
-            {player.supporters.length}
           </div>
           {player.seed && (
             <div id="player-seed" className={`align-${side}`}>
-              <span className="player-info-label">Seed: </span>
+              <span className="player-info-label-small">Seed: </span>
               {player.seed}
             </div>
           )}
         </div>
       </div>
-      <div id={`${team}-maps-won`}>{points}</div>
     </div>
   );
 }

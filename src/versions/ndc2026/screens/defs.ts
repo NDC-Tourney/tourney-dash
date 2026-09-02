@@ -1,0 +1,3 @@
+export const TOP_HEIGHT = 178;
+export const BOTTOM_HEIGHT = 183;
+export const GAMEPLAY_HEIGHT = 1080 - TOP_HEIGHT - BOTTOM_HEIGHT;

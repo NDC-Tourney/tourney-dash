@@ -42,7 +42,7 @@ export function StartScreen({ from, to }: StartScreenProps) {
 
   return (
     <div id="main">
-      <div className="screen-fade-2">
+      <div className="screen-fade-3">
         <motion.div
           key={`main-${to}`}
           {...(anims.main === "slide"
