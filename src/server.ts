@@ -1,4 +1,6 @@
 import type { HTMLBundle } from "bun";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { parseArgs } from "util";
 import dashboard from "./dashboard/dashboard.html";
 import index from "./index.html";
@@ -69,9 +71,10 @@ async function run() {
       "/versions/*": (req) => {
         const pathname = new URL(req.url).pathname;
         const relativePath = pathname.replace(/^\/versions\//, "");
-        const file = Bun.file(
-          new URL(`./versions/${relativePath}`, import.meta.url),
-        );
+        const versionsPath = isProduction
+          ? join(dirname(process.execPath), "versions")
+          : fileURLToPath(new URL("./versions", import.meta.url));
+        const file = Bun.file(join(versionsPath, relativePath));
 
         if (!file.exists()) {
           return new Response("Not found", { status: 404 });

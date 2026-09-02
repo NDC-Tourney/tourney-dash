@@ -1,5 +1,7 @@
 import { $ } from "bun";
 import bunPluginTailwind from "bun-plugin-tailwind";
+import { cp } from "node:fs/promises";
+import { join } from "node:path";
 import type { JSONType } from "node_modules/zod/v4/core/util.d.cts";
 
 const targets: Record<string, Bun.Build.Target> = {
@@ -57,5 +59,9 @@ for (const [platform, target] of Object.entries(targets)) {
     },
     minify: true,
     sourcemap: true,
+  });
+
+  await cp("./src/versions", join("./dist", platform, "versions"), {
+    recursive: true,
   });
 }
