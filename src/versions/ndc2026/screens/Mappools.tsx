@@ -12,12 +12,14 @@ import { PlayerInfo } from "../components/PlayerInfo";
 import { StageInfo } from "../components/StageInfo";
 import type { Beatmap } from "~/schemas/huis";
 import { useSettings } from "~/state/dashboard";
-import { useMappoolQuery } from "~/state/huis";
+import { useMappoolQuery, useMatchesQuery } from "~/state/huis";
+import { MatchPoints } from "~/versions/ndc2026/components/MatchPoints.tsx";
 
 function ModBracket(
   beatmaps: Beatmap[],
   mod: Lowercase<Beatmap["modBracket"]>,
 ) {
+  const { currentMatch } = useMatchesQuery();
   const [settings] = useSettings();
   const tb = mod === "tb" && "tb";
 
@@ -39,7 +41,7 @@ function ModBracket(
                 <div className={`picked-indicator-${tb || player}`}>
                   {tb
                     ? "TIEBREAKER HYPE!!!"
-                    : `Picked by ${player === "player1" ? "Red" : "Blue"}`}
+                    : `Picked`}
                 </div>
               </div>
               <div
@@ -51,11 +53,9 @@ function ModBracket(
                 )}
                 key={`banned-${tb || player}-${map.mapId}`}
               >
-                <div className={`banned-indicator-${player}`}>
-                  <div>Banned by {player === "player1" ? "Red" : "Blue"}</div>
-                  {/*<div className="mappool-player-name">
-                  {match[player].name}
-                  </div>*/}
+                <div className={clsx(`banned-indicator-${player}`, 'banned-by')}>
+                  <span>BANNED BY</span>
+                  <span className={player}>{currentMatch[player]?.name ?? "Unknown Player"}</span>
                 </div>
               </div>
             </div>
@@ -94,77 +94,94 @@ export function MappoolScreen({ from, to }: MappoolScreenProps) {
 
   const slideDirection: 1 | -1 = 1;
 
+  const { currentMatch } = useMatchesQuery();
   const { beatmaps } = useMappoolQuery();
+  const [ settings ] = useSettings();
+
+  const playerName = currentMatch[settings.activePlayer]?.name ?? "Unknown Player";
+  let nextPick = settings.activePlayer === "player1"
+    ? <span className="next-pick-red">Next Pick: {playerName}</span>
+    : <span className="next-pick-blue">Next Pick: {playerName}</span>;
+
+  const hasPickedTb = (picks: string[]) =>
+    picks.some(x => x.toLowerCase().includes('tb'));
+
+  if (hasPickedTb(settings.player1.picks) || hasPickedTb(settings.player2.picks)) {
+    nextPick = <span className="next-pick-tb">TIEBREAKER HYPE!!!</span>;
+  }
 
   return (
     <div>
       <div id="main">
-        <motion.div
-          key={`header-${to}`}
-          {...(anims.header === "slide"
-            ? sectionVariants.header.slide(slideDirection)
-            : anims.header === "fade"
-              ? sectionVariants.header.fade
-              : sectionVariants.header.none)}
-        >
-          <HeaderContent>
-            <div id="top">
-              <PlayerInfo playerNum={1} />
-              <div id="middle">
-                <StageInfo />
+        <div className="screen-fade-2">
+          <motion.div
+            key={`header-${to}`}
+            {...(anims.header === "slide"
+              ? sectionVariants.header.slide(slideDirection)
+              : anims.header === "fade"
+                ? sectionVariants.header.fade
+                : sectionVariants.header.none)}
+          >
+            <HeaderContent>
+              <div id="top">
+                <PlayerInfo playerNum={1} />
+                <div id="middle">
+                  <StageInfo />
+                </div>
+                <PlayerInfo playerNum={2} />
+                <MatchPoints/>
               </div>
-              <PlayerInfo playerNum={2} />
-            </div>
 
-            <div id="current-status" style={{ visibility: "hidden" }}>
-              <div id="current-status-pb">MAPPOOL - Next to pick: </div>
-              <div id="current-status-player" className="blue">
-                KawaiiSniperBoy
+              <div id="current-status" style={{ visibility: "hidden" }}>
+                <div id="current-status-pb">MAPPOOL - Next to pick:</div>
+                <div id="current-status-player" className="blue">
+                  KawaiiSniperBoy
+                </div>
               </div>
-            </div>
-          </HeaderContent>
-        </motion.div>
+            </HeaderContent>
+          </motion.div>
 
-        <motion.div
-          key={`main-${to}`}
-          {...(anims.main === "slide"
-            ? sectionVariants.main.slide(slideDirection)
-            : anims.main === "fade"
-              ? sectionVariants.main.fade
-              : sectionVariants.main.none)}
-        >
-          <MainContent>
-            <div id="mappool">
-              <div id="mappool-left">
+          <motion.div
+            key={`main-${to}`}
+            {...(anims.main === "slide"
+              ? sectionVariants.main.slide(slideDirection)
+              : anims.main === "fade"
+                ? sectionVariants.main.fade
+                : sectionVariants.main.none)}
+          >
+            <MainContent>
+              <div id="mappool">
+                <div className="next-pick">
+                  <span>MAPPOOL -&nbsp;</span>
+                  {nextPick}
+                </div>
                 {ModBracket(beatmaps.NM, "nm")}
                 {ModBracket(beatmaps.HD, "hd")}
                 {ModBracket(beatmaps.HR, "hr")}
-              </div>
-              <div id="mappool-right">
                 {ModBracket(beatmaps.DT, "dt")}
                 {ModBracket(beatmaps.TB, "tb")}
               </div>
-            </div>
-          </MainContent>
-        </motion.div>
+            </MainContent>
+          </motion.div>
 
-        <motion.div
-          key={`footer-${to}`}
-          {...(anims.footer === "slide"
-            ? sectionVariants.footer.slide(slideDirection)
-            : anims.footer === "fade"
-              ? sectionVariants.footer.fade
-              : sectionVariants.footer.none)}
-        >
-          <FooterContent>
-            <div id="orange-line"></div>
-            <div id="bottom">
-              <Logo />
-              <Chat />
-              <Casters />
-            </div>
-          </FooterContent>
-        </motion.div>
+          <motion.div
+            key={`footer-${to}`}
+            {...(anims.footer === "slide"
+              ? sectionVariants.footer.slide(slideDirection)
+              : anims.footer === "fade"
+                ? sectionVariants.footer.fade
+                : sectionVariants.footer.none)}
+          >
+            <FooterContent>
+              <div id="bottom">
+                <Logo top={24} />
+                <div id="casters-spacer">
+                  <Casters />
+                </div>
+              </div>
+            </FooterContent>
+          </motion.div>
+        </div>
       </div>
     </div>
   );
