@@ -11,6 +11,9 @@ import { MainContent } from "../components/MainContent";
 import { PlayerInfo } from "../components/PlayerInfo";
 import { ScoreBars } from "../components/ScoreBars";
 import { GAMEPLAY_HEIGHT, TOP_HEIGHT } from "./defs.ts";
+import { StageInfo } from "~/versions/ndc2026/components/StageInfo.tsx";
+import { MatchPoints } from "~/versions/ndc2026/components/MatchPoints.tsx";
+import { Chat } from "~/versions/ndc2026/components/Chat.tsx";
 
 interface VersusScreenProps {
   from?: string;
@@ -26,51 +29,56 @@ export function VersusScreen({ from, to }: VersusScreenProps) {
     <div>
       <GameplaySvgMask top={TOP_HEIGHT} height={GAMEPLAY_HEIGHT} />
       <div id="main" className="no-background">
-        <motion.div
-          key={`header-${to}`}
-          {...(anims.header === "slide"
-            ? sectionVariants.header.slide(slideDirection)
-            : anims.header === "fade"
-              ? sectionVariants.header.fade
-              : sectionVariants.header.none)}
-        >
-          <HeaderContent>
-            <div id="top">
-              <PlayerInfo playerNum={1} />
-              <ScoreBars />
-              <PlayerInfo playerNum={2} />
-            </div>
-          </HeaderContent>
-        </motion.div>
-        <motion.div
-          key={`main-${to}`}
-          {...(anims.main === "slide"
-            ? sectionVariants.main.slide(slideDirection)
-            : anims.main === "fade"
-              ? sectionVariants.main.fade
-              : sectionVariants.main.none)}
-        >
-          <MainContent>
-            <div id="gameplay"></div>
-          </MainContent>
-        </motion.div>
-        <motion.div
-          key={`footer-${to}`}
-          {...(anims.footer === "slide"
-            ? sectionVariants.footer.slide(slideDirection)
-            : anims.footer === "fade"
-              ? sectionVariants.footer.fade
-              : sectionVariants.footer.none)}
-        >
-          <FooterContent>
-            <div id="orange-line"></div>
-            <div id="bottom">
-              <Logo />
-              <CurrentMapStats />
-              <Casters />
-            </div>
-          </FooterContent>
-        </motion.div>
+        <div className="screen-fade-2">
+          <motion.div
+            key={`header-${to}`}
+            {...(anims.header === "slide"
+              ? sectionVariants.header.slide(slideDirection)
+              : anims.header === "fade"
+                ? sectionVariants.header.fade
+                : sectionVariants.header.none)}
+          >
+            <HeaderContent>
+              <div id="top">
+                <PlayerInfo playerNum={1} />
+                <ScoreBars />
+                <PlayerInfo playerNum={2} />
+                <MatchPoints/>
+              </div>
+            </HeaderContent>
+          </motion.div>
+
+          <motion.div
+            key={`main-${to}`}
+            {...(anims.main === "slide"
+              ? sectionVariants.main.slide(slideDirection)
+              : anims.main === "fade"
+                ? sectionVariants.main.fade
+                : sectionVariants.main.none)}
+          >
+            <MainContent>
+              <div id="gameplay"></div>
+            </MainContent>
+          </motion.div>
+
+          <motion.div
+            key={`footer-${to}`}
+            {...(anims.footer === "slide"
+              ? sectionVariants.footer.slide(slideDirection)
+              : anims.footer === "fade"
+                ? sectionVariants.footer.fade
+                : sectionVariants.footer.none)}
+          >
+            <FooterContent>
+              <div id="orange-line"></div>
+              <div id="bottom">
+                <Logo top={14} />
+                <CurrentMapStats />
+                <Casters />
+              </div>
+            </FooterContent>
+          </motion.div>
+        </div>
       </div>
     </div>
   );

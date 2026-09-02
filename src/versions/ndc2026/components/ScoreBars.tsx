@@ -4,22 +4,62 @@ import { StageInfo } from "./StageInfo";
 export function ScoreBars() {
   const { player1, player2 } = useTosu();
 
-  const maxScore = player1.score + player2.score;
-  const maxBarWidth = 600;
+  const p1Score = player1.score;
+  const p2Score = player2.score;
+
+  const maxScore = p1Score + p2Score;
+  const maxBarWidth = 960/2;
 
   const redBarWidth =
-    (Math.min(player1.score, maxScore) / maxScore) * maxBarWidth;
+    (Math.min(p1Score, maxScore) / maxScore) * maxBarWidth;
   const blueBarWidth =
-    (Math.min(player2.score, maxScore) / maxScore) * maxBarWidth;
+    (Math.min(p2Score, maxScore) / maxScore) * maxBarWidth;
 
-  const redWinning = player1.score > player2.score;
-  const blueWinning = player2.score > player1.score;
+  const redWinning = p1Score > p2Score;
+  const blueWinning = p2Score > p1Score;
 
   return (
     <div id="middle">
       <StageInfo />
       <div id="scoring">
-        <div id="score-red">
+        <div className="score-labels">
+          <span>{p1Score.toLocaleString("de-DE")}</span>
+          <span>{p2Score.toLocaleString("de-DE")}</span>
+        </div>
+        <div className="bars">
+          <div className="bar-wrapper">
+            <div
+              id="red-bar"
+              style={{
+                width: `${redBarWidth}px`,
+                maxWidth: maxBarWidth+"px",
+              }}
+            >
+              {p1Score - p2Score > 0 && (
+                <div id="score-difference-red">
+                  +{(p1Score - p2Score).toLocaleString("de-DE")}
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="bar-wrapper">
+            <div
+              id="blue-bar"
+              style={{
+                width: `${blueBarWidth}px`,
+                maxWidth: maxBarWidth+"px",
+              }}
+            >
+              {p2Score - p1Score > 0 && (
+                <div id="score-difference-blue">
+                  +{(p2Score - p1Score).toLocaleString("de-DE")}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div id="score-red" style={{ display: "none" }}>
           <div
             id="score-values-red"
             style={{
@@ -28,11 +68,11 @@ export function ScoreBars() {
             }}
           >
             <div id="score-now-red" className={redWinning ? "winning" : ""}>
-              {player1.score.toLocaleString("de-DE")}
+              {p1Score.toLocaleString("de-DE")}
             </div>
-            {player1.score - player2.score > 0 && (
+            {p1Score - p2Score > 0 && (
               <div id="score-difference-red">
-                +{(player1.score - player2.score).toLocaleString("de-DE")}
+                +{(p1Score - p2Score).toLocaleString("de-DE")}
               </div>
             )}
           </div>
@@ -46,7 +86,7 @@ export function ScoreBars() {
             }}
           ></div>
         </div>
-        <div id="score-blue">
+        <div id="score-blue" style={{ display: "none" }}>
           <div
             id="score-values-blue"
             style={{
@@ -55,11 +95,11 @@ export function ScoreBars() {
             }}
           >
             <div id="score-now-blue" className={blueWinning ? "winning" : ""}>
-              {player2.score.toLocaleString("de-DE")}
+              {p2Score.toLocaleString("de-DE")}
             </div>
-            {player2.score - player1.score > 0 && (
+            {p2Score - p1Score > 0 && (
               <div id="score-difference-blue">
-                +{(player2.score - player1.score).toLocaleString("de-DE")}
+                +{(p2Score - p1Score).toLocaleString("de-DE")}
               </div>
             )}
           </div>
