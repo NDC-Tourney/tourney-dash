@@ -146,13 +146,11 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
 
 .map-point.red,
 .map-point.blue {
-  outline: unset;
-  outline-offset: unset;
-  background-color: #dc1f2b;
+  background: #dc1f2b;
 }
 
 .map-point.blue {
-  background-color: #1f55dc !important;
+  background: #1f55dc !important;
 }
 
   /* Players */
@@ -289,18 +287,52 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
 /* Scoring Section */
 
 #scoring {
-  position: absolute;
-  left: 50%;
-  top: 128px;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 1920px;
+  position: fixed;
+  top: 89px;
+  left: 480px;
+  width: 960px;
   transition:
     width 0.5s cubic-bezier(0.77, 0, 0.175, 1),
     height 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.score-labels {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  font-size: 20px;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
+  font-weight: normal;
+  color: white;
+}
+
+.bars {
+  overflow: hidden;
+  width: 100%;
+  height: 31px;
+  outline: 2px solid white;
+  outline-offset: -2px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.wrapper {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#red-bar  {
+  background-color: #dc1f2b;
+  margin-left: auto;
+  height: 100%;
+}
+
+#blue-bar  {
+  background-color: #1f55dc;
+  height: 100%;
 }
 
 #score-red {
@@ -349,8 +381,8 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
 
 #score-now-red,
 #score-now-blue {
-  font-size: 32px;
-  font-family: BenderBold, Helvetica, sans-serif;
+  font-size: 20px;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
   font-weight: normal;
   color: white;
   text-align: center;
@@ -373,14 +405,6 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
   background-color: #1f55dc;
 }
 
-#score-now-blue.winning,
-#score-now-red.winning {
-  font-family: BenderBlack, Helvetica, sans-serif;
-  font-weight: normal;
-  color: #ff962d;
-  font-size: 36px !important;
-}
-
 #score-bar-red.winning,
 #score-bar-blue.winning {
   position: relative;
@@ -393,16 +417,23 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
 
 #score-difference-red,
 #score-difference-blue {
-  font-size: 24px;
-  font-family: BenderRegular, Helvetica, sans-serif;
+  padding-top: 3px;
+  padding-left: 5px;
+  font-size: 20px;
+  font-family: OrbitronBold, Helvetica, sans-serif;
   font-weight: normal;
-  color: white;
-  text-align: center;
-  position: relative;
-  top: -5px;
+  color: #09205B;
   transition:
     width 0.5s cubic-bezier(0.77, 0, 0.175, 1),
     height 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+#score-difference-red {
+  width: calc(100% - 5px);
+  text-align: right;
+  color: #651217;
+  padding-left: 0;
+  padding-right: 5px;
 }
 
 #gameplay {
@@ -434,44 +465,70 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
 }
 
 #current-map {
-  width: 930px;
-  height: 137px;
-  margin-left: 78px;
-  margin-top: 37px;
+  width: 976px;
+  height: 173px;
+  margin-left: 377px;
   display: flex;
   flex-direction: row;
   align-items: space-between;
   justify-content: center;
   gap: 20px;
-  outline: 6px solid #ff962d;
   transition: outline 0.5s ease;
   position: relative;
+}
+
+.current-map-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  outline: 6px solid var(--purple);
+  outline-offset: -6px;
+}
+
+.current-map-overlay .label {
+  z-index: 3;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  padding: 2px 2px 5px 11px;
+  background-color: var(--purple);
+  font-size: 24px;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
+  font-weight: normal;
 }
 
 .current-map-picked-player1 {
   outline: 6px solid #dc1f2b !important;
 }
 
+.current-map-picked-player1 .label {
+  background-color: #dc1f2b !important;
+}
+
 .current-map-picked-player2 {
   outline: 6px solid #1f55dc !important;
+}
+
+.current-map-picked-player2 .label {
+  background-color: #1f55dc !important;
 }
 
 #current-map-info {
   display: flex;
   flex: 2;
+  gap: 4px;
   flex-direction: column;
-  padding-left: 16px;
-  padding-top: 14px;
-  padding-bottom: 19px;
-  width: 610px;
+  padding-top: 15px;
+  padding-left: 25px;
+  padding-bottom: 20px;
+  width: 600px;
   overflow: hidden;
-  text-shadow: 2px 2px 4px #333;
   z-index: 1;
 }
 
 #current-map-name {
   font-size: 32px;
-  font-family: BenderBlack, Helvetica, sans-serif;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
   font-weight: normal;
   color: white;
   text-align: left;
@@ -479,8 +536,7 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
 
 #current-map-artist {
   font-size: 28px;
-  padding-top: 4px;
-  font-family: BenderBold, Helvetica, sans-serif;
+  font-family: OrbitronBold, Helvetica, sans-serif;
   font-weight: normal;
   color: white;
   text-align: left;
@@ -493,9 +549,8 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
 
 #current-map-difficulty,
 #current-map-mapper {
-  padding-top: 8px;
   font-size: 20px;
-  font-family: BenderRegular, Helvetica, sans-serif;
+  font-family: OrbitronRegular, Helvetica, sans-serif;
   font-weight: normal;
   color: white;
   text-align: left;
@@ -512,15 +567,27 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
 }
 
 #current-map-stats {
+  position: absolute;
+  top: 48px;
+  left: 648px;
   flex: 1;
-  display: flex;
-  flex-wrap: wrap;
-  width: 296px;
-  padding-top: 14px;
-  padding-left: 19px;
-  padding-right: 19px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  width: 310px;
+  height: 106px;
   z-index: 1;
 }
+
+#current-map-stats p {
+  font-size: 20px;
+  font-family: OrbitronBold, Helvetica, sans-serif;
+  font-weight: normal;
+  color: white;
+  text-align: left;
+  text-transform: uppercase;
+}
+
 
 #current-map-cs,
 #current-map-ar,
@@ -546,9 +613,9 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
 #bpm,
 #length {
   font-size: 24px;
-  font-family: BenderBlack, Helvetica, sans-serif;
+  font-family: OrbitronBlack, Helvetica, sans-serif;
   font-weight: normal;
-  color: #ff962d;
+  color: var(--purple);
   text-align: left;
 }
 
@@ -570,7 +637,7 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
 
 #chat {
   width: 976px;
-  height: 172px;
+  height: 173px;
   margin-left: 377px;
   background-color: rgba(0, 0, 0, 0.7);
   display: flex;
