@@ -4,9 +4,11 @@ import { useTosu } from "~/state/tosu";
 export function Chat() {
   const { tourney } = useTosu();
 
+  const chat = tourney.chat;
+
   return (
     <div id="chat">
-      {tourney.chat
+      {chat
         .filter((msg: any) => msg.team !== "bot" || String(msg.message).includes("rolls"))
         .map((msg: any, idx: number) => (
           <motion.div
@@ -33,6 +35,8 @@ export function Chat() {
             <div className="chat-text">{msg.message}</div>
           </motion.div>
         ))}
+
+      <div className="chat-overlay"></div>
     </div>
   );
 }

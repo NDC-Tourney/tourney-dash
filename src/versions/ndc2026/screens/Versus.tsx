@@ -10,6 +10,7 @@ import { Logo } from "../components/Logo";
 import { MainContent } from "../components/MainContent";
 import { PlayerInfo } from "../components/PlayerInfo";
 import { ScoreBars } from "../components/ScoreBars";
+import { GAMEPLAY_HEIGHT, TOP_HEIGHT } from "./defs.ts";
 
 interface VersusScreenProps {
   from?: string;
@@ -23,7 +24,7 @@ export function VersusScreen({ from, to }: VersusScreenProps) {
   const slideDirection: 1 | -1 = 1;
   return (
     <div>
-      <GameplaySvgMask />
+      <GameplaySvgMask top={TOP_HEIGHT} height={GAMEPLAY_HEIGHT} />
       <div id="main" className="no-background">
         <motion.div
           key={`header-${to}`}

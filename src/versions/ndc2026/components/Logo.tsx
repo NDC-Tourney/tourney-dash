@@ -1,9 +1,15 @@
 import logo from "../static/img/logo.png";
 
-export function Logo() {
+
+
+type Props = {
+  top?: number
+};
+
+export function Logo({ top = 37 }: Props) {
   return (
     <div id="ndc-logo">
-      <img src={logo} />
+      <img src={logo} style={{ "--top": top+"px" }} />
     </div>
   );
 }
