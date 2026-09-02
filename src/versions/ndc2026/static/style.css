@@ -574,7 +574,7 @@ linear-gradient(to bottom, #FFFFFF 50%, transparent 50%) right / 1px 24px repeat
   grid-template-rows: repeat(4, 1fr);
   width: 310px;
   height: 106px;
-  z-index: 1;
+  z-index: 1; 
 }
 
 #current-map-stats p {
